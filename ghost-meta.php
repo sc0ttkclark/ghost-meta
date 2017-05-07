@@ -95,6 +95,18 @@ class Ghost_Meta {
 			add_filter( 'ep_post_sync_args', array( $this, 'ep_post_sync_args' ), 10, 2 );
 		}
 
+		/**
+		 * @var $wpdb wpdb
+		 */
+		global $wpdb;
+
+		// Add temporary table property to wpdb because
+		// _get_meta_table isn't hookable and it's called too early
+		// in add_metadata / update_metadata / delete_metadata
+		$table_name = $this->meta_type . 'meta';
+
+		$wpdb->{$table_name} = $wpdb->prefix . $table_name;
+
 		include_once 'functions.php';
 
 	}

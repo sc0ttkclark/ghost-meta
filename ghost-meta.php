@@ -333,7 +333,7 @@ class Ghost_Meta {
 
 			// Build like value so we only get ghost meta for objects that have something that matches
 			$like_value = sprintf(
-				'%%s:%d:%s%%', // Example: %s:7:example%
+				'%%s:%d:"%s"%%', // Example: %s:7:"example"%
 				mb_strlen( $meta_key ),
 				$wpdb->esc_like( $meta_key )
 			);

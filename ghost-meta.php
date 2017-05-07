@@ -40,6 +40,13 @@ class Ghost_Meta {
 	protected static $instance;
 
 	/**
+	 * Meta type for Ghost meta.
+	 *
+	 * @param string
+	 */
+	public $meta_type = 'ghost';
+
+	/**
 	 * Meta key for Ghost meta storage.
 	 *
 	 * @param string
@@ -68,20 +75,20 @@ class Ghost_Meta {
 	 */
 	private function __construct() {
 
-		if ( ! has_filter( 'get_ghost_metadata', array( $this, 'get_metadata' ) ) ) {
-			add_filter( 'get_ghost_metadata', array( $this, 'get_metadata' ), 10, 4 );
+		if ( ! has_filter( 'get_' . $this->meta_type . '_metadata', array( $this, 'get_metadata' ) ) ) {
+			add_filter( 'get_' . $this->meta_type . '_metadata', array( $this, 'get_metadata' ), 10, 4 );
 		}
 
-		if ( ! has_filter( 'add_ghost_metadata', array( $this, 'add_metadata' ) ) ) {
-			add_filter( 'add_ghost_metadata', array( $this, 'add_metadata' ), 10, 5 );
+		if ( ! has_filter( 'add_' . $this->meta_type . '_metadata', array( $this, 'add_metadata' ) ) ) {
+			add_filter( 'add_' . $this->meta_type . '_metadata', array( $this, 'add_metadata' ), 10, 5 );
 		}
 
-		if ( ! has_filter( 'update_ghost_metadata', array( $this, 'update_metadata' ) ) ) {
-			add_filter( 'update_ghost_metadata', array( $this, 'update_metadata' ), 10, 5 );
+		if ( ! has_filter( 'update_' . $this->meta_type . '_metadata', array( $this, 'update_metadata' ) ) ) {
+			add_filter( 'update_' . $this->meta_type . '_metadata', array( $this, 'update_metadata' ), 10, 5 );
 		}
 
-		if ( ! has_filter( 'delete_ghost_metadata', array( $this, 'delete_metadata' ) ) ) {
-			add_filter( 'delete_ghost_metadata', array( $this, 'delete_metadata' ), 10, 5 );
+		if ( ! has_filter( 'delete_' . $this->meta_type . '_metadata', array( $this, 'delete_metadata' ) ) ) {
+			add_filter( 'delete_' . $this->meta_type . '_metadata', array( $this, 'delete_metadata' ), 10, 5 );
 		}
 
 		if ( ! has_filter( 'ep_post_sync_args', array( $this, 'ep_post_sync_args' ) ) ) {
@@ -180,7 +187,7 @@ class Ghost_Meta {
 		 * @param string $meta_key   Meta key.
 		 * @param mixed  $meta_value Meta value.
 		 */
-		do_action( 'added_ghost_meta', $mid, $object_id, $_meta_key, $_meta_value );
+		do_action( 'added_' . $this->meta_type . '_meta', $mid, $object_id, $_meta_key, $_meta_value );
 
 		return $check;
 
@@ -274,7 +281,7 @@ class Ghost_Meta {
 		 * @param string $meta_key   Meta key.
 		 * @param mixed  $meta_value Meta value.
 		 */
-		do_action( 'updated_ghost_meta', $meta_id, $object_id, $_meta_key, $_meta_value );
+		do_action( 'updated_' . $this->meta_type . '_meta', $meta_id, $object_id, $_meta_key, $_meta_value );
 
 		return $check;
 
@@ -410,7 +417,7 @@ class Ghost_Meta {
 		 * @param string $meta_key   Meta key.
 		 * @param mixed  $meta_value Meta value.
 		 */
-		do_action( 'deleted_ghost_meta', $meta_ids, $object_id, $_meta_key, $_meta_value );
+		do_action( 'deleted_' . $this->meta_type . '_meta', $meta_ids, $object_id, $_meta_key, $_meta_value );
 
 		return $delete;
 

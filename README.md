@@ -45,3 +45,32 @@ Try it out, use `'ep_integrate' => true` with your WP_Query calls and you'll sti
 By default, ghost meta uses `post` as the meta type. However, this can be changed using dot-syntax in `$meta_key`.
 
 For example, you can use `user.my_custom_field` to interact with the `my_custom_field` meta key on the `user` meta type.
+
+### Create custom ghost meta-like functionality
+
+Extend Ghost_Meta and define your own meta type and meta key to store the data in, the code will do the rest. It may help you further separate multiple data stores as needed.
+
+```php
+// Load My Custom Ghost Meta
+add_action( 'plugins_loaded', array( 'My_Custom_Ghost_Meta', 'get_instance' ), 11 );
+
+class My_Custom_Ghost_Meta extends Ghost_Meta {
+
+	/**
+	 * Custom meta type for Ghost meta.
+	 *
+	 * @param string
+	 */
+	public $meta_type = 'my_custom_ghost';
+
+	/**
+	 * Custom meta key for Ghost meta storage.
+	 *
+	 * @param string
+	 */
+	public $meta_key = '_my_custom_ghost_meta';
+
+}
+```
+
+Example usage: `$meta_value = get_metadata( 'my_custom_ghost', $object_id, $meta_key, $single );`
